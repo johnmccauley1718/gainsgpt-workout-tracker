@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "846729044963",
+    "project_id": "gainsgpt-3e3a6",
+    "storage_bucket": "gainsgpt-3e3a6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846729044963:android:2ca33c0ff324d703f176d6",
+        "android_client_info": {
+          "package_name": "com.john.gainsgpt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846729044963-r6521c3jkrvkos398d5hjjdquibkvfnf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.john.gainsgpt",
+            "certificate_hash": "9fa2b3a408731b7a8589d4cd17f2244e7cb0156e"
+          }
+        },
+        {
+          "client_id": "846729044963-47ammfrvj3hti20r4fc9vh5ck4es97iu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKGsvsfw8B0cn5ZmBAalPRGZd0BrKoP8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846729044963-47ammfrvj3hti20r4fc9vh5ck4es97iu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
