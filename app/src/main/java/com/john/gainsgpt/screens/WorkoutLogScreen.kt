@@ -72,7 +72,9 @@ fun WorkoutLogItem(
                 value = workout.sets?.toString() ?: "",
                 onValueChange = { onSetChange(it.toIntOrNull()) },
                 label = { Text("Sets") },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
                 modifier = Modifier.weight(1f)
             )
 
@@ -80,7 +82,9 @@ fun WorkoutLogItem(
                 value = workout.reps?.toString() ?: "",
                 onValueChange = { onRepChange(it.toIntOrNull()) },
                 label = { Text("Reps") },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
                 modifier = Modifier.weight(1f)
             )
         }
