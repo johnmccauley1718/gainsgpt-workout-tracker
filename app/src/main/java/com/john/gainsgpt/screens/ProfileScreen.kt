@@ -19,11 +19,11 @@ import com.john.gainsgpt.data.ChatGPTService
 import com.john.gainsgpt.data.Profile
 import com.john.gainsgpt.viewmodel.ProfileViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.collectAsState
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+
 
 
 @Composable
@@ -39,7 +39,7 @@ fun ProfileScreen(
 
     val context = LocalContext.current
     var isLoggingOut by remember { mutableStateOf(false) }
-    val profile by profileViewModel.profile.collectAsState(initial = null)
+    val profile by profileViewModel.profile
     var chatInput by remember { mutableStateOf("") }
     var isChatLoading by remember { mutableStateOf(false) }
     var chatError by remember { mutableStateOf<String?>(null) }
