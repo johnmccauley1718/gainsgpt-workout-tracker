@@ -1,4 +1,4 @@
-package com.john.gainsgpt.ui
+package com.john.gainsgpt
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
