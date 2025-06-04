@@ -19,7 +19,9 @@ data class Workout(
 suspend fun getWorkoutsForDate(date: LocalDate): List<Workout>
 suspend fun saveWorkoutLogs(workouts: List<Workout>)
 
-class WorkoutRepository {
+// ✅ CORRECT
+open class WorkoutRepository
+ {
 
     private val firestore = FirebaseFirestore.getInstance()
 
