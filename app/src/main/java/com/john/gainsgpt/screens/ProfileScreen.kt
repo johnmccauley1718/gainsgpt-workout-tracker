@@ -18,12 +18,10 @@ import com.john.gainsgpt.R
 import com.john.gainsgpt.data.ChatGPTService
 import com.john.gainsgpt.data.Profile
 import com.john.gainsgpt.viewmodel.ProfileViewModel
-import androidx.compose.runtime.livedata.observeAsState
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
-import java.util.Locale
+import kotlinx.coroutines.flow.collectAsState
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun ProfileScreen(
@@ -38,7 +36,7 @@ fun ProfileScreen(
 
     val context = LocalContext.current
     var isLoggingOut by remember { mutableStateOf(false) }
-    val profile by profileViewModel.profile.observeAsState()
+    val profile by profileViewModel.profile.collectAsState()
     var chatInput by remember { mutableStateOf("") }
     var isChatLoading by remember { mutableStateOf(false) }
     var chatError by remember { mutableStateOf<String?>(null) }
@@ -49,21 +47,25 @@ fun ProfileScreen(
         ?: userDisplayName.ifBlank { "Athlete" }
     val emailToShow = profile?.email ?: "No email found—are you a secret agent?"
 
-    // 🔄 Fallback to navigation-provided plan if LiveData not ready
     val rawPlan = profile?.personalizedPlan ?: plan.orEmpty()
 
     val planWithDates = remember(rawPlan) {
         if (rawPlan.isBlank()) return@remember ""
         val dayRegex = Regex("(?i)Day (\\d+)")
-        val startDate = LocalDate.now()
+        val startDate = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("MMMM d, yyyy", Locale.getDefault())
+        val dowFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+
         val matches = dayRegex.findAll(rawPlan).toList()
         val dayNumberToDate = matches
             .map { it.groupValues[1].toIntOrNull() ?: 1 }
             .distinct()
             .associateWith { dayNum ->
-                val date = startDate.plusDays((dayNum - 1).toLong())
-                val dow = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-                val pretty = date.format(DateTimeFormatter.ofPattern("MMMM d, yyyy"))
+                val calendar = Calendar.getInstance()
+                calendar.time = startDate
+                calendar.add(Calendar.DATE, dayNum - 1)
+                val dow = dowFormat.format(calendar.time)
+                val pretty = dateFormat.format(calendar.time)
                 "$dow, $pretty"
             }
 
