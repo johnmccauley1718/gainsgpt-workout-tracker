@@ -111,6 +111,10 @@ dependencies {
     // Debug Tools (Compose previews & testing)
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.3"
+    implementation "com.google.code.gson:gson:2.9.1"
+
 }
 
 // The Google Services plugin must be applied last
