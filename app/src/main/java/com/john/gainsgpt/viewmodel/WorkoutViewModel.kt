@@ -1,34 +1,25 @@
-package com.john.gainsgpt.viewmodel
+package com.john.gainsgpt.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.john.gainsgpt.data.Workout
-import com.john.gainsgpt.data.WorkoutRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.john.gainsgpt.api.ApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WorkoutViewModel(application: Application) : AndroidViewModel(application) {
-    private val repo = WorkoutRepository()
+@HiltViewModel
+class WorkoutViewModel @Inject constructor(
+    private val apiService: ApiService
+) : ViewModel() {
 
-    private val _workout = MutableStateFlow<Workout?>(null)
-    val workout: StateFlow<Workout?> get() = _workout
-
-    fun loadWorkoutForDay(day: String) {
+    fun fetchWorkout() {
         viewModelScope.launch {
             try {
-                val workoutForDay = repo.getWorkoutForDay(day)
-                _workout.value = workoutForDay
+                val response = apiService.getWorkout()
+                println("Workout: $response")
             } catch (e: Exception) {
-                _workout.value = null
-                // Optionally log error or handle it
+                println("Error fetching workout: ${e.message}")
             }
         }
-    }
-
-    fun getWorkoutForDay(day: String): StateFlow<Workout?> {
-        loadWorkoutForDay(day)
-        return workout
     }
 }
