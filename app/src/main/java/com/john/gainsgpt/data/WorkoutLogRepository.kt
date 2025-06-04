@@ -2,10 +2,13 @@ package com.john.gainsgpt.data
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class WorkoutLogRepository {
     private val firestore = FirebaseFirestore.getInstance()
+    private val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
     suspend fun saveWorkoutLogs(uid: String, logs: List<WorkoutLog>) {
         val batch = firestore.batch()
@@ -18,9 +21,8 @@ class WorkoutLogRepository {
             val docId = "${log.date}_${log.exerciseName}".replace(" ", "_")
             val docRef = collectionRef.document(docId)
 
-            // Convert to Map with stringified date
             val data = mapOf(
-                "date" to log.date.toString(),
+                "date" to log.date,
                 "exerciseName" to log.exerciseName,
                 "suggestedReps" to log.suggestedReps,
                 "suggestedWeight" to log.suggestedWeight,
@@ -34,20 +36,20 @@ class WorkoutLogRepository {
         batch.commit().await()
     }
 
-    suspend fun getWorkoutLogsForDate(uid: String, date: LocalDate): List<WorkoutLog> {
+    suspend fun getWorkoutLogsForDate(uid: String, date: String): List<WorkoutLog> {
         val collectionRef = firestore.collection("users")
             .document(uid)
             .collection("workoutLogs")
 
         val snapshot = collectionRef
-            .whereEqualTo("date", date.toString()) // Firestore stores it as string
+            .whereEqualTo("date", date)
             .get()
             .await()
 
         return snapshot.documents.mapNotNull { doc ->
             try {
                 WorkoutLog(
-                    date = LocalDate.parse(doc.getString("date") ?: return@mapNotNull null),
+                    date = doc.getString("date") ?: return@mapNotNull null,
                     exerciseName = doc.getString("exerciseName") ?: "",
                     suggestedReps = doc.getString("suggestedReps") ?: "",
                     suggestedWeight = doc.getString("suggestedWeight") ?: "",
@@ -58,5 +60,9 @@ class WorkoutLogRepository {
                 null
             }
         }
+    }
+
+    fun getTodayDate(): String {
+        return dateFormatter.format(Date())
     }
 }

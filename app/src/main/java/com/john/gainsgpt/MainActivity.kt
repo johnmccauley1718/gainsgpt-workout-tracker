@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.john.gainsgpt.ui.theme.GainsGPTTheme
-import com.john.gainsgpt.viewmodels.WorkoutViewModel
+import com.john.gainsgpt.viewmodel.WorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
