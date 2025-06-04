@@ -59,6 +59,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
+    implementation 'androidx.compose.runtime:runtime:1.6.6'
+
 
     // Activity Compose
     implementation 'androidx.activity:activity-compose:1.9.0'
@@ -104,6 +106,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
 
+    // Compose Runtime (explicitly required for collectAsState to resolve in IDE)
+    implementation 'androidx.compose.runtime:runtime:1.6.6'
+
     // Debug
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
@@ -111,3 +116,5 @@ dependencies {
 
 // ✅ Firebase plugin required at bottom of the file
 apply plugin: 'com.google.gms.google-services'
+
+
