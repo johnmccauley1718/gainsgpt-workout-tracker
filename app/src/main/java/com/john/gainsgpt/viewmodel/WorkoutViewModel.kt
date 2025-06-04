@@ -1,4 +1,5 @@
-package com.john.gainsgpt.viewmodels
+package com.john.gainsgpt.viewmodel
+
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
