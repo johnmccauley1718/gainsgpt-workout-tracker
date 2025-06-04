@@ -21,10 +21,7 @@ import com.john.gainsgpt.viewmodel.ProfileViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-
-
+import androidx.compose.runtime.livedata.observeAsState
 
 @Composable
 fun ProfileScreen(
@@ -39,7 +36,7 @@ fun ProfileScreen(
 
     val context = LocalContext.current
     var isLoggingOut by remember { mutableStateOf(false) }
-    val profile by profileViewModel.profile
+    val profile by profileViewModel.profile.observeAsState()
     var chatInput by remember { mutableStateOf("") }
     var isChatLoading by remember { mutableStateOf(false) }
     var chatError by remember { mutableStateOf<String?>(null) }

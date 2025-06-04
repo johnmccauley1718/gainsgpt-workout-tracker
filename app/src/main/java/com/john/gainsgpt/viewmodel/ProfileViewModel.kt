@@ -7,6 +7,7 @@ import com.john.gainsgpt.data.ProfileRepository
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
+
     private val repo = ProfileRepository(application)
 
     private val _profile = MutableLiveData<Profile?>()
@@ -14,42 +15,49 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
     fun loadProfile() {
         viewModelScope.launch {
-            val loadedProfile = repo.sync()
-            _profile.value = loadedProfile
+            try {
+                val loadedProfile = repo.sync()
+                _profile.postValue(loadedProfile)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _profile.postValue(null)
+            }
         }
     }
 
     fun saveProfile(profile: Profile) {
         viewModelScope.launch {
-            repo.saveLocalProfile(profile)
-            repo.syncProfileWithFirestore(profile)
-            _profile.value = profile
+            try {
+                repo.saveLocalProfile(profile)
+                repo.syncProfileWithFirestore(profile)
+                _profile.postValue(profile)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun updatePersonalizedPlan(plan: String) {
         val current = _profile.value
-        val updatedProfile = current?.copy(personalizedPlan = plan)
+        val updated = current?.copy(personalizedPlan = plan)
             ?: Profile(
                 uid = "", displayName = null, email = null,
                 onboardingComplete = true, personalizedPlan = plan
             )
-        saveProfile(updatedProfile)
+        saveProfile(updated)
     }
 
     fun setDisplayName(name: String) {
         val current = _profile.value
         if (current != null) {
-            val updated = current.copy(displayName = name)
-            saveProfile(updated)
+            saveProfile(current.copy(displayName = name))
         }
     }
 
     fun markOnboardingComplete() {
         val current = _profile.value
         if (current != null) {
-            val updated = current.copy(onboardingComplete = true)
-            saveProfile(updated)
+            saveProfile(current.copy(onboardingComplete = true))
         }
     }
 }
