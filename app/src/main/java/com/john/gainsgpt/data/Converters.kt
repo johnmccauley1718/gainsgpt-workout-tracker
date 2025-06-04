@@ -1,16 +1,33 @@
-package com.john.gainsgpt.data
+package com.john.gainsgpt.data.local
 
 import androidx.room.TypeConverter
-import java.time.LocalDate
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class Converters {
+object Converters {
+
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
     @TypeConverter
-    fun fromString(value: String?): LocalDate? {
-        return value?.let { LocalDate.parse(it) }
+    fun fromDateString(value: String?): Date? {
+        return value?.let {
+            try {
+                dateFormat.parse(it)
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 
     @TypeConverter
-    fun dateToString(date: LocalDate?): String? {
-        return date?.toString()
+    fun toDateString(date: Date?): String? {
+        return date?.let {
+            try {
+                dateFormat.format(it)
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 }
